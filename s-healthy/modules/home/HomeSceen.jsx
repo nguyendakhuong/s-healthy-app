@@ -7,14 +7,12 @@ import { UserContext } from "../../lib/context/user.context";
 
 const HomeScreen = () => {
 
-    const { updateUser } = useContext(UserContext)
+    const { updateUser, updateToken } = useContext(UserContext)
     useEffect(() => {
         const autoLogin = async () => {
             try {
                 const username = await AsyncStorage.getItem('username');
                 const password = await AsyncStorage.getItem('password');
-                console.log(username)
-                console.log(password)
                 if (username && password) {
                     handleLogin(username, password);
                 }
@@ -38,7 +36,9 @@ const HomeScreen = () => {
             const data = await response.json();
             if (response.status === 200) {
                 const userData = { email: email, password: password };
+                const userToken = data.data.token
                 updateUser(userData);
+                updateToken(userToken);
             } else {
                 NotifyMessage(
                     data.message,
@@ -49,14 +49,6 @@ const HomeScreen = () => {
             console.log(e);
         }
     };
-    const images = [
-        APP_IMAGE.image_product,
-        APP_IMAGE.image_product,
-        APP_IMAGE.email,
-    ]
-
-
-
     return (
         <ScrollView>
             <View style={styles.container}>

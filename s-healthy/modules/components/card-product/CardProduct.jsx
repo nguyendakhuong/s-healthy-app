@@ -1,45 +1,20 @@
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native"
 import APP_IMAGE from "../../../assets/index"
+import { useContext, useEffect, useState } from "react"
+import { UserContext } from "../../../lib/context/user.context"
 
-const CardProduct = () => {
-
-    const arrayContent = [
-        'Duy trì độ PH cân bằng, dưỡng ẩm, giảm tình trạng khô hạn',
-        'Se khít vùng kín cho phụ nữ mãn kinh, phụ nữ sau sinh',
-        'Giảm viêm nhiễm, khí hư, nấm ngứa, làm sáng vùng da sậm màu.',
-        'Giảm viêm nhiễm, khí hư, nấm ngứa, làm sáng vùng da sậm màu.',
-        'Giảm viêm nhiễm, khí hư, nấm ngứa, làm sáng vùng da sậm màu.',
-        'Giảm viêm nhiễm, khí hư, nấm ngứa, làm sáng vùng da sậm màu.'
-    ]
-
-
-    const handlerOnPressDetail = () => {
-
-    }
-    const renderContent = () => {
-        if (arrayContent.length <= 3) {
-            return arrayContent.map((content, index) => (
-                <Text key={index} style={styles.textContent}>{content}</Text>
-            ));
-        } else {
-            const truncatedContent = arrayContent.slice(0, 3);
-            truncatedContent.push('...');
-            return truncatedContent.map((content, index) => (
-                <Text key={index} style={styles.textContent}>{content}</Text>
-            ));
-        }
-    };
+const CardProduct = ({ image, name, slogan, mainUse }) => {
     return (
         <View style={styles.viewContainer}>
             <View style={styles.viewImage}>
-                <Image style={styles.image} source={APP_IMAGE.image_product} />
+                <Image style={styles.image} source={image} />
             </View>
             <View>
-                <Text style={{ color: '#c89595', fontSize: 26, marginVertical: 25 }}>JilGyungYi Pro 6ea</Text>
-                <Text style={{ fontSize: 18, marginBottom: 20 }}>Chăm sóc “cô bé” chỉ với 2 viên mỗi tuần!</Text>
+                <Text style={{ color: '#c89595', fontSize: 26, marginVertical: 25 }}>{name}</Text>
+                <Text style={{ fontSize: 18, marginBottom: 20 }}>{slogan}</Text>
                 <View style={styles.ViewLine} />
                 <View style={styles.viewContent}>
-                    {renderContent()}
+                    <Text>{mainUse}</Text>
                 </View>
                 <View style={styles.viewOpacityDetail}>
                     <TouchableOpacity style={styles.OpacityDetail} onPress={handlerOnPressDetail}>
@@ -49,6 +24,50 @@ const CardProduct = () => {
             </View>
         </View>
     )
+}
+const CardProductList = () => {
+    const [products, setProducts] = useState([]);
+    const getDataProduct = async () => {
+        const { token } = useContext(UserContext);
+        try {
+            const response = await fetch("http://54.196.170.115:9001/api/product", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log("response==============================>", response)
+            const data = await response.json();
+            console.log("response==============================>", data)
+            if (response.status === 200) {
+                const data = await response.json();
+                setProducts(data);
+            }
+        }
+        catch (e) { }
+    }
+
+    useEffect(() => {
+        getDataProduct();
+    }, []);
+
+    return (
+        <View>
+            {Array.isArray(products) && products.length > 0 ? (
+                products.map((value, index) => (
+                    <View key={value._id}>
+                        <CardProduct image={value.imgUrls[0]} name={value.name} slogan={value.slogan} mainUse={value.mainUse} />
+                    </View>
+                ))
+
+            ) : (
+                <Text>no</Text>
+            )}
+
+        </View>
+    )
+
 }
 const styles = StyleSheet.create({
     viewContainer: {
@@ -95,4 +114,4 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     }
 })
-export default CardProduct
+export default CardProductList

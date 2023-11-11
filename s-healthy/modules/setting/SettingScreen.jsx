@@ -17,13 +17,14 @@ export const NotLogin = () => {
     )
 }
 export const Logged = () => {
-    const { user, updateUser } = useContext(UserContext);
+    const { updateUser, updateToken } = useContext(UserContext);
     const navigation = useNavigation();
     const handleLogout = async () => {
         try {
             await AsyncStorage.removeItem('username');
             await AsyncStorage.removeItem('password');
             updateUser(null);
+            updateToken('')
             navigation.navigate('AuthStack', { screen: 'Login' });
         } catch (error) {
             console.log(error);

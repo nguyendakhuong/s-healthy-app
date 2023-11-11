@@ -14,7 +14,7 @@ const Login = () => {
     const navigation = useNavigation();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const { updateUser } = useContext(UserContext)
+    const { updateUser, updateToken } = useContext(UserContext)
 
     const [listError, setListError] = useState({
         password: null,
@@ -60,7 +60,9 @@ const Login = () => {
             const data = await response.json();
             if (response.status === 200) {
                 const userData = { email: email, password: password };
+                const userToken = data.data.token
                 updateUser(userData);
+                updateToken(userToken);
                 navigation.navigate('MainStack', { screen: 'Home' })
                 NotifyMessage("Đăng nhập thành công");
                 await AsyncStorage.setItem('username', email);
