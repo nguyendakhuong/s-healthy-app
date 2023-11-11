@@ -1,13 +1,10 @@
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native"
-import APP_IMAGE from "../../../assets/index"
-import { useContext, useEffect, useState } from "react"
-import { UserContext } from "../../../lib/context/user.context"
 
-const CardProduct = ({ image, name, slogan, mainUse }) => {
+const CardProduct = ({ image, name, slogan, mainUse, handlerOnPressDetail }) => {
     return (
         <View style={styles.viewContainer}>
             <View style={styles.viewImage}>
-                <Image style={styles.image} source={image} />
+                <Image style={styles.image} source={{ uri: image }} />
             </View>
             <View>
                 <Text style={{ color: '#c89595', fontSize: 26, marginVertical: 25 }}>{name}</Text>
@@ -25,50 +22,7 @@ const CardProduct = ({ image, name, slogan, mainUse }) => {
         </View>
     )
 }
-const CardProductList = () => {
-    const [products, setProducts] = useState([]);
-    const getDataProduct = async () => {
-        const { token } = useContext(UserContext);
-        try {
-            const response = await fetch("http://54.196.170.115:9001/api/product", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            console.log("response==============================>", response)
-            const data = await response.json();
-            console.log("response==============================>", data)
-            if (response.status === 200) {
-                const data = await response.json();
-                setProducts(data);
-            }
-        }
-        catch (e) { }
-    }
 
-    useEffect(() => {
-        getDataProduct();
-    }, []);
-
-    return (
-        <View>
-            {Array.isArray(products) && products.length > 0 ? (
-                products.map((value, index) => (
-                    <View key={value._id}>
-                        <CardProduct image={value.imgUrls[0]} name={value.name} slogan={value.slogan} mainUse={value.mainUse} />
-                    </View>
-                ))
-
-            ) : (
-                <Text>no</Text>
-            )}
-
-        </View>
-    )
-
-}
 const styles = StyleSheet.create({
     viewContainer: {
         padding: 20,
@@ -114,4 +68,4 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     }
 })
-export default CardProductList
+export default CardProduct

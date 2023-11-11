@@ -13,6 +13,7 @@ import APP_IMAGE from "../assets/index";
 import { Image, View } from "react-native";
 import Login from "../modules/auth/Login";
 import Register from "../modules/auth/Register";
+import DetailProduct from "../modules/product/DetailProduct";
 const homeScreen = "Home";
 const productScreen = "Product";
 const newsScreen = "News";
@@ -35,6 +36,11 @@ export default function LayoutContainer() {
           component={AuthStack}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="ProductStack"
+          component={Product}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -45,6 +51,14 @@ function AuthStack() {
     <Stack.Navigator>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
+    </Stack.Navigator>
+  );
+}
+
+function Product() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="DetailProduct" component={DetailProduct} />
     </Stack.Navigator>
   );
 }

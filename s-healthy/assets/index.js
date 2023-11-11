@@ -5,6 +5,7 @@ import email from "./images/mail.png";
 import pass from "./images/pass.png";
 import user from "./images/icons8_user.png";
 import image_product from "./images/image_product.jpg";
+import start from "./images/star2.png";
 
 export default APP_IMAGES = {
   logo,
@@ -14,4 +15,5 @@ export default APP_IMAGES = {
   pass,
   user,
   image_product,
+  start,
 };
