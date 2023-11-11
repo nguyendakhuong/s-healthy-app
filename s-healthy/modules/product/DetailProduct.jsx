@@ -3,6 +3,7 @@ import APP_IMAGE from "../../assets/index"
 import { ScrollView } from "react-native-gesture-handler"
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../lib/context/user.context"
+import BottomLayout from "../bottom-layout/BottomLayout"
 const CardDetailProduct = ({
     image,
     image1,
@@ -15,6 +16,7 @@ const CardDetailProduct = ({
     onPressBuyNow,
     onPressToCard }) => {
     return (
+
         <View style={styles.viewContainer}>
             <View style={styles.viewImage}>
                 <Image style={styles.image} source={{ uri: image }} />
@@ -52,12 +54,14 @@ const CardDetailProduct = ({
 
 const DetailProduct = ({ route }) => {
     const { productId } = route.params;
-    const [productData, setProductData] = useState([]);
+    const [productData, setProductData] = useState();
+    console.log("productData==========>", productData)
     const { token } = useContext(UserContext);
+
     useEffect(() => {
         const getDataProduct = async () => {
             try {
-                const response = await fetch(`http://54.196.170.115:9001/api/product/detail`, {
+                const response = await fetch(`http://54.196.170.115:9001/api/product/detail?_id=${productId}`, {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
@@ -66,9 +70,8 @@ const DetailProduct = ({ route }) => {
                 });
 
                 const data = await response.json();
-                console.log(data)
                 if (data.statusCode === 200) {
-                    setProductData(data.data.data);
+                    setProductData(data.data);
                 }
             } catch (e) {
                 console.log("Error:", e);
@@ -76,12 +79,30 @@ const DetailProduct = ({ route }) => {
         };
 
         getDataProduct();
-    }, [productId]);
+    }, []);
 
     return (
         <ScrollView>
-            <CardDetailProduct />
-        </ScrollView>
+            {productData ? (
+                <View>
+                    <CardDetailProduct
+                        image={productData.imgUrls[0]}
+                        image1={productData.imgUrls[1]}
+                        image2={productData.imgUrls[2]}
+                        image3={productData.imgUrls[3]}
+                        image4={productData.imgUrls[4]}
+                        name={productData.name}
+                        code={productData.categoryCode}
+                        price={productData.price}
+                        onPressBuyNow={() => { }}
+                        onPressToCard={() => { }}
+                    />
+                </View>
+            ) : (
+                <Text>Loading...</Text>
+            )}
+            <BottomLayout />
+        </ScrollView >
     )
 }
 

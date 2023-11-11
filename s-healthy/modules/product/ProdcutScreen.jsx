@@ -47,7 +47,7 @@ const CardProductList = () => {
                     </View>
                 ))
             ) : (
-                <Text>no</Text>
+                <Text>Loading...</Text>
             )}
         </View>
     );
