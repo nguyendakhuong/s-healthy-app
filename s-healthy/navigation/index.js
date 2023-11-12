@@ -16,6 +16,7 @@ import Register from "../modules/auth/Register";
 import DetailProduct from "../modules/product/DetailProduct";
 import { TouchableOpacity } from "react-native";
 import CartProduct from "../modules/cart/CartProduct";
+import PayProduct from "../modules/pay/PayProduct";
 const homeScreen = "Home";
 const productScreen = "Product";
 const newsScreen = "News";
@@ -62,6 +63,7 @@ function Product() {
     <Stack.Navigator>
       <Stack.Screen name="DetailProduct" component={DetailProduct} />
       <Stack.Screen name="CartProduct" component={CartProduct} />
+      <Stack.Screen name="PayProduct" component={PayProduct} />
     </Stack.Navigator>
   );
 }

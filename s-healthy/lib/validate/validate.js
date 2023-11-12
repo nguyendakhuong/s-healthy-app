@@ -37,6 +37,11 @@ export const Validate = (
       case "checkPw":
         error = inputValue !== password ? ERROR_CHECK_LIST_TYPE[key] : null;
         break;
+      case "checkNumber":
+        error = !isNaN(parseFloat(inputValue))
+          ? null
+          : ERROR_CHECK_LIST_TYPE[key];
+        break;
       default:
     }
 

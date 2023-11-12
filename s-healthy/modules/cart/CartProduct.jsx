@@ -4,6 +4,7 @@ import { UserContext } from "../../lib/context/user.context";
 import APP_IMAGE from "../../assets/index"
 import Checkbox from "../components/checkbox/CheckBoxCustom";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 const CardCartProduct = ({ image, name, price, total, onPressReduce, onPressIncreasing, quantity, handleCheckboxChange, onPressDeleteItem }) => {
 
@@ -53,6 +54,7 @@ const CardCartProduct = ({ image, name, price, total, onPressReduce, onPressIncr
 };
 
 const CartProduct = () => {
+    const navigation = useNavigation()
     const [getDataAsyncStorage, setGetDataAsyncStorage] = useState([])
     const [isCheck, setIsCheck] = useState(false)
 
@@ -117,11 +119,28 @@ const CartProduct = () => {
 
         setGetDataAsyncStorage(updatedCartProducts);
     };
-    const onPressDeleteItem = () => {
 
+    const removeItemAsyncStorage = async (id) => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('Products');
+            if (jsonValue !== null) {
+                const cartProducts = JSON.parse(jsonValue);
+
+                const updatedCartProducts = cartProducts.filter((product) => product.id !== id);
+
+                await AsyncStorage.setItem('Products', JSON.stringify(updatedCartProducts));
+                setGetDataAsyncStorage(updatedCartProducts);
+            }
+        } catch (error) {
+            console.error('Lỗi khi xóa dữ liệu từ AsyncStorage:', error);
+        }
+    };
+
+    const onPressDeleteItem = (id) => {
+        removeItemAsyncStorage(id);
     }
     const handleOnPressPay = () => {
-
+        navigation.navigate('ProductStack', { screen: 'PayProduct' });
     }
 
     return (
@@ -144,7 +163,7 @@ const CartProduct = () => {
                             onPressReduce={() => onPressReduce(value.id)}
                             onPressIncreasing={() => onPressIncreasing(value.id)}
                             handleCheckboxChange={handleCheckboxChange}
-                            onPressDeleteItem={onPressDeleteItem} />
+                            onPressDeleteItem={() => onPressDeleteItem(value.id)} />
                     </View>
                 ))
             ) : (

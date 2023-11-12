@@ -11,4 +11,6 @@ export const ERROR_CHECK_LIST_TYPE = {
   regEmail: "Chưa đúng định dạng email",
   checkDate: "Phải nhỏ hơn ngày hôm nay",
   checkPw: "Không khớp password",
+  checkNumber: "Phải là số",
+  checkPhone: "Số điện thoại phải gồm 10 chữ số",
 };
