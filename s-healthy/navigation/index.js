@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -14,6 +14,8 @@ import { Image, View } from "react-native";
 import Login from "../modules/auth/Login";
 import Register from "../modules/auth/Register";
 import DetailProduct from "../modules/product/DetailProduct";
+import { TouchableOpacity } from "react-native";
+import CartProduct from "../modules/cart/CartProduct";
 const homeScreen = "Home";
 const productScreen = "Product";
 const newsScreen = "News";
@@ -59,11 +61,13 @@ function Product() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="DetailProduct" component={DetailProduct} />
+      <Stack.Screen name="CartProduct" component={CartProduct} />
     </Stack.Navigator>
   );
 }
 
 function MainStack() {
+  const navigation = useNavigation();
   return (
     <Tab.Navigator
       initialRouteName={homeScreen}
@@ -86,13 +90,32 @@ function MainStack() {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
+        headerRight:
+          route.name === productScreen
+            ? () => (
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("ProductStack", {
+                      screen: "CartProduct",
+                    });
+                  }}
+                >
+                  <Ionicons
+                    name="news"
+                    size={24}
+                    color={"black"}
+                    style={{ marginRight: 10 }}
+                  />
+                </TouchableOpacity>
+              )
+            : undefined,
       })}
-      tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "grey",
-        labelStyle: { paddingBottom: 5, fontSize: 10 },
-        style: { padding: 10, height: 70 },
-      }}
+      // tabBarOptions={{
+      //   activeTintColor: "tomato",
+      //   inactiveTintColor: "grey",
+      //   labelStyle: { paddingBottom: 5, fontSize: 10 },
+      //   style: { padding: 10, height: 70 },
+      // }}
     >
       <Tab.Screen name={homeScreen} component={HomeScreen} />
       <Tab.Screen name={productScreen} component={ProductScreen} />

@@ -1,9 +1,11 @@
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native"
+import { Text, View, StyleSheet, TouchableOpacity, Image, Platform, ToastAndroid, Alert } from "react-native"
 import APP_IMAGE from "../../assets/index"
 import { ScrollView } from "react-native-gesture-handler"
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../lib/context/user.context"
 import BottomLayout from "../bottom-layout/BottomLayout"
+import { useNavigation } from "@react-navigation/native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 const CardDetailProduct = ({
     image,
     image1,
@@ -55,8 +57,8 @@ const CardDetailProduct = ({
 const DetailProduct = ({ route }) => {
     const { productId } = route.params;
     const [productData, setProductData] = useState();
-    console.log("productData==========>", productData)
-    const { token } = useContext(UserContext);
+    const { token, user } = useContext(UserContext);
+    const navigation = useNavigation();
 
     useEffect(() => {
         const getDataProduct = async () => {
@@ -80,7 +82,61 @@ const DetailProduct = ({ route }) => {
 
         getDataProduct();
     }, []);
+    const NotifyMessage = (msg, text) => {
+        if (Platform.OS === "android") {
+            ToastAndroid.show(msg, ToastAndroid.SHORT, ToastAndroid.CENTER);
+        } else {
+            Alert.alert(msg, text, [{ text: "OK" }], { cancelable: 1000 });
+        }
+    };
 
+
+    const handlerOnPressToCart = async () => {
+        const newProduct = {
+            id: productData._id,
+            image: productData.imgUrls[0],
+            name: productData.name,
+            price: productData.price,
+        };
+        try {
+            const jsonValue = await AsyncStorage.getItem('Products');
+            let cartProducts = [];
+
+            if (jsonValue !== null) {
+                cartProducts = JSON.parse(jsonValue);
+
+                const existingProduct = cartProducts.find(product => product.id === newProduct.id);
+                if (existingProduct) {
+                    return NotifyMessage("Sản phẩm đã tồn tại trong giỏ hàng.");
+                }
+            }
+
+            cartProducts.push(newProduct);
+            NotifyMessage("Thêm thành công vào giỏ hàng");
+            await AsyncStorage.setItem('Products', JSON.stringify(cartProducts));
+        } catch (error) {
+            console.error('Lỗi AsyncStorage:', error);
+        }
+
+    }
+
+
+    const handlerOnPressBuyNow = async () => {
+        try {
+            const response = await fetch("", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({}),
+            });
+            const data = await response.json();
+            if (data.statusCode === 200) {
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
     return (
         <ScrollView>
             {productData ? (
@@ -94,8 +150,8 @@ const DetailProduct = ({ route }) => {
                         name={productData.name}
                         code={productData.categoryCode}
                         price={productData.price}
-                        onPressBuyNow={() => { }}
-                        onPressToCard={() => { }}
+                        onPressBuyNow={handlerOnPressBuyNow}
+                        onPressToCard={handlerOnPressToCart}
                     />
                 </View>
             ) : (

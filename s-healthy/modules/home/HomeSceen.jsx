@@ -34,8 +34,8 @@ const HomeScreen = () => {
                 body: JSON.stringify({ email, password }),
             });
             const data = await response.json();
-            if (response.status === 200) {
-                const userData = { email: email, password: password };
+            if (data.statusCode === 200) {
+                const userData = data.data.user._id;
                 const userToken = data.data.token
                 updateUser(userData);
                 updateToken(userToken);
