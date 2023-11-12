@@ -9,8 +9,6 @@ import HomeScreen from "../modules/home/HomeSceen";
 import ProductScreen from "../modules/product/ProdcutScreen";
 import NewScreen from "../modules/news/NewScreen";
 import SettingScreen from "../modules/setting/SettingScreen";
-import APP_IMAGE from "../assets/index";
-import { Image, View } from "react-native";
 import Login from "../modules/auth/Login";
 import Register from "../modules/auth/Register";
 import DetailProduct from "../modules/product/DetailProduct";
@@ -103,7 +101,7 @@ function MainStack() {
                   }}
                 >
                   <Ionicons
-                    name="news"
+                    name="shopping-cart"
                     size={24}
                     color={"black"}
                     style={{ marginRight: 10 }}
