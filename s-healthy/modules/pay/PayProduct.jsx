@@ -40,15 +40,26 @@ const Pay = ({ length, price, total }) => {
 }
 
 const PayProduct = ({ route }) => {
-    const { selectedItems } = route.params;
+    const { selectedItems, product } = route.params;
     const [dataCart, setDataCart] = useState([])
-
+    const [totalValueProduct, setTotalValueProduct] = useState(0)
     const numberOfItems = dataCart.length;
-    const totalValue = dataCart.reduce((accumulator, currentItem) => {
-        return accumulator + currentItem.value.total;
-    }, 0);
+    console.log(totalValueProduct)
+
     useEffect(() => {
-        setDataCart(selectedItems)
+        if (selectedItems) {
+            setDataCart(selectedItems)
+
+            const totalValue = dataCart.reduce((accumulator, currentItem) => {
+                return accumulator + currentItem.value.total;
+            }, 0);
+            setTotalValueProduct(totalValue)
+        }
+        if (product) {
+            setDataCart(product)
+            setTotalValueProduct(product.price)
+        }
+
     }, [])
 
     console.log("haha:", JSON.stringify(selectedItems, null, 2));
@@ -89,6 +100,9 @@ const PayProduct = ({ route }) => {
             [name]: inputValue,
         }));
         setListError({ ...listError, [name]: error })
+    }
+    const handleOnPressPay = () => {
+
     }
     return (
         <ScrollView style={{ paddingHorizontal: 20, backgroundColor: 'white' }}>
@@ -153,25 +167,43 @@ const PayProduct = ({ route }) => {
             </View>
             <View style={styles.viewProduct}>
                 <Text style={{ fontSize: 20, marginBottom: 10 }}>Sản phẩm</Text>
-                {dataCart.map((value, index) => (
-                    <View key={index}>
-                        <Product
-                            image={value.value.image}
-                            name={value.value.name}
-                            price={value.value.price}
-                            quantity={value.value.quantity}
-                            total={value.value.total}
-                        />
-                    </View>
-                ))}
+                {Array.isArray(dataCart) && dataCart.length > 0 ? (
+                    dataCart.map((value, index) => (
+                        <View key={index}>
+                            <Product
+                                image={value.value.image}
+                                name={value.value.name}
+                                price={value.value.price}
+                                quantity={value.value.quantity}
+                                total={value.value.total}
+                            />
+                        </View>
+                    ))
+                ) : (
+                    <Product
+                        image={dataCart.image}
+                        name={dataCart.name}
+                        price={dataCart.price}
+                        quantity={dataCart.quantity}
+                        total={dataCart.price} />
+                )}
             </View>
             <View style={styles.viewPay}>
                 <Pay
                     length={numberOfItems}
-                    price={totalValue}
-                    total={totalValue} />
+                    price={totalValueProduct}
+                    total={totalValueProduct} />
                 <View style={{ alignItems: 'flex-end' }}>
-                    <TouchableOpacity style={{ width: '50%', backgroundColor: '#c89595', height: 30, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity
+                        style={{
+                            width: '50%',
+                            backgroundColor: '#c89595',
+                            height: 30,
+                            borderRadius: 10,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}
+                        onPress={handleOnPressPay}>
                         <Text>Thanh toán</Text>
                     </TouchableOpacity>
                 </View>

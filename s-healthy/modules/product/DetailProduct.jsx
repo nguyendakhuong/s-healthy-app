@@ -60,6 +60,7 @@ const DetailProduct = ({ route }) => {
     const { token, user } = useContext(UserContext);
     const navigation = useNavigation();
 
+
     useEffect(() => {
         const getDataProduct = async () => {
             try {
@@ -92,6 +93,10 @@ const DetailProduct = ({ route }) => {
 
 
     const handlerOnPressToCart = async () => {
+        // if (!user) {
+        //     NotifyMessage("Bạn chưa đăng nhập! Vui lòng đăng nhập hệ thống để sử dụng tính năng")
+        //     return;
+        // }
         const newProduct = {
             id: productData._id,
             image: productData.imgUrls[0],
@@ -121,21 +126,19 @@ const DetailProduct = ({ route }) => {
     }
 
 
-    const handlerOnPressBuyNow = async () => {
-        try {
-            const response = await fetch("", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({}),
-            });
-            const data = await response.json();
-            if (data.statusCode === 200) {
-            }
-        } catch (e) {
-            console.log(e)
-        }
+    const handlerOnPressBuyNow = () => {
+        // if (!user) {
+        //     NotifyMessage("Bạn chưa đăng nhập! Vui lòng đăng nhập hệ thống để sử dụng tính năng")
+        //     return;
+        // }
+        const newProduct = {
+            id: productData._id,
+            image: productData.imgUrls[0],
+            name: productData.name,
+            price: productData.price,
+            quantity: 1
+        };
+        navigation.navigate('ProductStack', { screen: 'PayProduct', params: { product: newProduct } })
     }
     return (
         <ScrollView>

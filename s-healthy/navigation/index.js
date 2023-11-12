@@ -12,9 +12,11 @@ import SettingScreen from "../modules/setting/SettingScreen";
 import Login from "../modules/auth/Login";
 import Register from "../modules/auth/Register";
 import DetailProduct from "../modules/product/DetailProduct";
-import { TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import CartProduct from "../modules/cart/CartProduct";
 import PayProduct from "../modules/pay/PayProduct";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UserContext } from "../lib/context/user.context";
 const homeScreen = "Home";
 const productScreen = "Product";
 const newsScreen = "News";
@@ -68,6 +70,17 @@ function Product() {
 
 function MainStack() {
   const navigation = useNavigation();
+  const [itemCount, setItemCount] = React.useState(0);
+
+  AsyncStorage.getItem("Products").then((value) => {
+    console.log(value);
+    if (value !== null) {
+      const data = JSON.parse(value);
+      const count = Object.keys(data).length;
+      setItemCount(count);
+    }
+  });
+
   return (
     <Tab.Navigator
       initialRouteName={homeScreen}
@@ -106,6 +119,19 @@ function MainStack() {
                     color={"black"}
                     style={{ marginRight: 10 }}
                   />
+                  <Text
+                    style={{
+                      position: "absolute",
+                      top: -5,
+                      right: 5,
+                      backgroundColor: "red",
+                      color: "white",
+                      paddingHorizontal: 4,
+                      borderRadius: 10,
+                    }}
+                  >
+                    {itemCount}
+                  </Text>
                 </TouchableOpacity>
               )
             : undefined,
