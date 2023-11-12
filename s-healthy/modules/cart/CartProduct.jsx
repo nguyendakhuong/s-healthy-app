@@ -6,7 +6,7 @@ import Checkbox from "../components/checkbox/CheckBoxCustom";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
-const CardCartProduct = ({ image, name, price, total, onPressReduce, onPressIncreasing, quantity, handleCheckboxChange, onPressDeleteItem }) => {
+const CardCartProduct = ({ id, image, name, price, total, onPressReduce, onPressIncreasing, quantity, handleCheckboxChange, onPressDeleteItem }) => {
 
     const truncateText = (text, maxLength) => {
         if (text.length <= maxLength) {
@@ -57,10 +57,7 @@ const CartProduct = () => {
     const navigation = useNavigation()
     const [getDataAsyncStorage, setGetDataAsyncStorage] = useState([])
     const [isCheck, setIsCheck] = useState(false)
-
-    const handleCheckboxChange = (value) => {
-        setIsCheck(value)
-    };
+    const [selectedItems, setSelectedItems] = useState([]);
 
 
     const getCartProducts = async () => {
@@ -139,9 +136,29 @@ const CartProduct = () => {
     const onPressDeleteItem = (id) => {
         removeItemAsyncStorage(id);
     }
+    const handleCheckboxChange = (value, item) => {
+        setIsCheck(value);
+        if (value === true) {
+            const isItemSelected = selectedItems.some(({ value }) => value.id == item.value.id);
+
+            if (!isItemSelected) {
+                const updatedSelectedItems = [...selectedItems, item];
+                setSelectedItems(updatedSelectedItems);
+            }
+        } else {
+            const updatedSelectedItems = selectedItems.filter(({ value }) => {
+                return value.id !== item.value.id;
+            });
+
+            setSelectedItems(updatedSelectedItems);
+
+        }
+
+    };
     const handleOnPressPay = () => {
-        navigation.navigate('ProductStack', { screen: 'PayProduct' });
+        navigation.navigate('ProductStack', { screen: 'PayProduct', params: { selectedItems: selectedItems } });
     }
+    // console.log("Item data:", JSON.stringify(selectedItems, null, 2));
 
     return (
         <View style={{ backgroundColor: 'white', height: '100%' }}>
@@ -155,6 +172,7 @@ const CartProduct = () => {
                 getDataAsyncStorage.map((value, index) => (
                     <View key={value._id}>
                         <CardCartProduct
+                            id={value.id}
                             image={value.image}
                             name={value.name}
                             price={value.price}
@@ -162,7 +180,7 @@ const CartProduct = () => {
                             total={value.total}
                             onPressReduce={() => onPressReduce(value.id)}
                             onPressIncreasing={() => onPressIncreasing(value.id)}
-                            handleCheckboxChange={handleCheckboxChange}
+                            handleCheckboxChange={(isCheck) => handleCheckboxChange(isCheck, { value })}
                             onPressDeleteItem={() => onPressDeleteItem(value.id)} />
                     </View>
                 ))
