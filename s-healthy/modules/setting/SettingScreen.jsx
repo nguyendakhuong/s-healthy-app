@@ -31,9 +31,9 @@ export const Logged = () => {
         }
     };
     return (
-        <View>
+        <View style={styles.container}>
             <Text>Đã đăng nhập</Text>
-            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <TouchableOpacity style={styles.button} onPress={handleLogout}>
                 <Text style={styles.buttonText}>Đăng xuất</Text>
             </TouchableOpacity>
         </View>

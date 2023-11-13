@@ -192,6 +192,8 @@ const PayProduct = ({ route }) => {
                 deleteDataByIds(productIds)
                 console.log("vao8")
                 navigation.goBack();
+
+                navigation.navigate('MainStack', { screen: 'Product' });
             }
         } catch (e) {
             console.log(e)
@@ -230,7 +232,7 @@ const PayProduct = ({ route }) => {
                 />
                 <InputCustom
                     value={info.city}
-                    label={'Thành Phó'}
+                    label={'Thành Phố'}
                     name={'city'}
                     onChange={handleChangeInput}
                     err={listError.city}
