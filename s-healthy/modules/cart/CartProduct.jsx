@@ -55,10 +55,15 @@ const CardCartProduct = ({ id, image, name, price, total, onPressReduce, onPress
 
 const CartProduct = () => {
     const navigation = useNavigation()
+    const { updateLengthItem } = useContext(UserContext)
+
     const [getDataAsyncStorage, setGetDataAsyncStorage] = useState([])
     const [isCheck, setIsCheck] = useState(false)
     const [selectedItems, setSelectedItems] = useState([]);
 
+
+    const isButtonDisabled = selectedItems.length === 0;
+    updateLengthItem(selectedItems.length + 1)
 
     const getCartProducts = async () => {
         try {
@@ -116,6 +121,7 @@ const CartProduct = () => {
 
         setGetDataAsyncStorage(updatedCartProducts);
     };
+
 
     const removeItemAsyncStorage = async (id) => {
         try {
@@ -185,11 +191,13 @@ const CartProduct = () => {
                     </View>
                 ))
             ) : (
-                <Text>Loading...</Text>
+                <View style={{ width: '100%', height: 300, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text>Chưa có sản phẩm nào</Text>
+                </View>
             )}
             <View style={{ alignItems: 'flex-end', marginRight: 30 }}>
-                <TouchableOpacity style={styles.OpacityPay} onPress={handleOnPressPay}>
-                    <Text style={{ color: 'white' }}>Thanh toán</Text>
+                <TouchableOpacity style={styles.OpacityPay} onPress={handleOnPressPay} disabled={isButtonDisabled}>
+                    <Text style={{ color: 'white' }} >Thanh toán</Text>
                 </TouchableOpacity>
             </View>
         </View>

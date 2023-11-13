@@ -115,7 +115,6 @@ const DetailProduct = ({ route }) => {
                     return NotifyMessage("Sản phẩm đã tồn tại trong giỏ hàng.");
                 }
             }
-
             cartProducts.push(newProduct);
             NotifyMessage("Thêm thành công vào giỏ hàng");
             await AsyncStorage.setItem('Products', JSON.stringify(cartProducts));
@@ -158,7 +157,9 @@ const DetailProduct = ({ route }) => {
                     />
                 </View>
             ) : (
-                <Text>Loading...</Text>
+                <View style={{ width: '100%', height: 300, justifyContent: 'center', alignItems: 'center' }}>
+                    <Image style={{ width: 100, height: 100 }} source={APP_IMAGE.loading} />
+                </View>
             )}
             <BottomLayout />
         </ScrollView >

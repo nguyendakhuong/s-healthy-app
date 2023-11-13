@@ -73,10 +73,10 @@ function MainStack() {
   const [itemCount, setItemCount] = React.useState(0);
 
   AsyncStorage.getItem("Products").then((value) => {
-    console.log(value);
     if (value !== null) {
       const data = JSON.parse(value);
       const count = Object.keys(data).length;
+      console.log(count);
       setItemCount(count);
     }
   });
@@ -104,7 +104,7 @@ function MainStack() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         headerRight:
-          route.name === productScreen
+          route.name === homeScreen
             ? () => (
                 <TouchableOpacity
                   onPress={() => {

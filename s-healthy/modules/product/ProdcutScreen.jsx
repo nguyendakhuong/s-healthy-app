@@ -47,7 +47,9 @@ const CardProductList = () => {
                     </View>
                 ))
             ) : (
-                <Text>Loading...</Text>
+                <View style={{ width: '100%', height: 300, justifyContent: 'center', alignItems: 'center' }}>
+                    <Image style={{ width: 100, height: 100 }} source={APP_IMAGE.loading} />
+                </View>
             )}
         </View>
     );
