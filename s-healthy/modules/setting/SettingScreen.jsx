@@ -29,7 +29,7 @@ export const Logged = () => {
         } catch (error) {
             console.log(error);
         }
-    };
+    }
     return (
         <View style={styles.container}>
             <Text>Đã đăng nhập</Text>

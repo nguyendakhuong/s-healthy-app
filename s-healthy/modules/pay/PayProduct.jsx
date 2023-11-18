@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { ParseValid } from '../../lib/validate/parseValid'
 import { Validate } from '../../lib/validate/validate'
 import BottomLayout from '../bottom-layout/BottomLayout'
-import APP_IMAGE from '../../assets/index'
+import APP_IMAGES from '../../assets/index'
 import { UserContext } from "../../lib/context/user.context";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
