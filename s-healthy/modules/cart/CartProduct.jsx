@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Text, TouchableOpacity, View, StyleSheet, Image } from "react-native"
 import { UserContext } from "../../lib/context/user.context";
-import APP_IMAGE from "../../assets/index"
+import APP_IMAGES from "../../assets/index"
 import Checkbox from "../components/checkbox/CheckBoxCustom";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";

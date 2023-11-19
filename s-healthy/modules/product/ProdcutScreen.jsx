@@ -1,9 +1,10 @@
-import { ScrollView, Text, View } from "react-native";
+import { Image, ScrollView, View } from "react-native";
 import BottomLayout from "../bottom-layout/BottomLayout";
 import CardProduct from "../components/card-product/CardProduct";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../lib/context/user.context";
 import { useNavigation } from "@react-navigation/native";
+import APP_IMAGES from "../../assets/index"
 
 const CardProductList = () => {
     const { token } = useContext(UserContext);
@@ -48,7 +49,7 @@ const CardProductList = () => {
                 ))
             ) : (
                 <View style={{ width: '100%', height: 300, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image style={{ width: 100, height: 100 }} source={APP_IMAGE.loading} />
+                    <Image style={{ width: 100, height: 100 }} source={APP_IMAGES.loading} />
                 </View>
             )}
         </View>

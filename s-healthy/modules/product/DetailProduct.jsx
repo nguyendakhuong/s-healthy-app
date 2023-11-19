@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, TouchableOpacity, Image, Platform, ToastAndroid, Alert } from "react-native"
-import APP_IMAGE from "../../assets/index"
+import APP_IMAGES from "../../assets/index"
 import { ScrollView } from "react-native-gesture-handler"
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../lib/context/user.context"
@@ -34,11 +34,11 @@ const CardDetailProduct = ({
             <Text numberOfLines={1} ellipsizeMode="tail" style={styles.textName}>{name}</Text>
             <View style={styles.viewReview}>
                 <Text>{code}</Text>
-                <Image style={styles.imageStart} source={APP_IMAGE.start} />
-                <Image style={styles.imageStart} source={APP_IMAGE.start} />
-                <Image style={styles.imageStart} source={APP_IMAGE.start} />
-                <Image style={styles.imageStart} source={APP_IMAGE.start} />
-                <Image style={styles.imageStart} source={APP_IMAGE.start} />
+                <Image style={styles.imageStart} source={APP_IMAGES.start} />
+                <Image style={styles.imageStart} source={APP_IMAGES.start} />
+                <Image style={styles.imageStart} source={APP_IMAGES.start} />
+                <Image style={styles.imageStart} source={APP_IMAGES.start} />
+                <Image style={styles.imageStart} source={APP_IMAGES.start} />
                 <Text>(review)</Text>
             </View>
             <Text style={styles.price}>{price}</Text>
@@ -158,7 +158,7 @@ const DetailProduct = ({ route }) => {
                 </View>
             ) : (
                 <View style={{ width: '100%', height: 300, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image style={{ width: 100, height: 100 }} source={APP_IMAGE.loading} />
+                    <Image style={{ width: 100, height: 100 }} source={APP_IMAGES.loading} />
                 </View>
             )}
             <BottomLayout />
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
 
     },
     image: {
-        width: 370,
+        width: "100%",
         height: 300,
         borderRadius: 16,
     },

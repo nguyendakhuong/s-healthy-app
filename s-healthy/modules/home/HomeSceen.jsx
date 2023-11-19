@@ -1,15 +1,15 @@
 import { Text, View, StyleSheet, ScrollView, Image, Animated, Dimensions } from "react-native"
 import BottomLayout from "../bottom-layout/BottomLayout"
-import APP_IMAGE from "../../assets/index"
+import APP_IMAGES from "../../assets/index"
 import { useContext, useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserContext } from "../../lib/context/user.context";
 import { WebView } from 'react-native-webview';
 import Ionicons from "react-native-vector-icons/Entypo";
 const image = [
-    APP_IMAGE.image_product,
-    APP_IMAGE.image_product,
-    APP_IMAGE.image_product,
+    APP_IMAGES.image_product,
+    APP_IMAGES.image_product,
+    APP_IMAGES.image_product,
 ]
 
 const WIDTH = Dimensions.get('window').width;
@@ -133,7 +133,7 @@ const HomeScreen = () => {
                             <Text>Mỗi ngày, JilGyungYi - một thói quen </Text>
                             <Text>trong cuộc sống của bạn. </Text>
                         </View>
-                        <Image style={{ width: 140, height: 100 }} source={APP_IMAGE.image2} />
+                        <Image style={{ width: 140, height: 100 }} source={APP_IMAGES.image2} />
                         <Text style={{ color: '#c89595', marginVertical: 10, fontSize: 24 }} >Khởi nguồn</Text>
                     </View>
                     <Text style={{ padding: 10 }}>
@@ -146,7 +146,7 @@ const HomeScreen = () => {
                         cho phụ nữ mà còn là một sự thăng hoa của tình yêu.
                     </Text>
                     <View style={{ alignItems: 'center' }}>
-                        <Image style={{ width: 140, height: 100 }} source={APP_IMAGE.image2} />
+                        <Image style={{ width: 140, height: 100 }} source={APP_IMAGES.image2} />
                         <Text style={{ color: '#c89595', marginVertical: 10, fontSize: 24 }}>Cam Kết</Text>
                     </View>
                     <Text style={{ padding: 10 }}>
@@ -155,10 +155,10 @@ const HomeScreen = () => {
                         dụng Paraben, không có hương liệu nhân tạo, không chất tạo bọt.
                     </Text>
                     <View style={{ alignItems: 'center', marginVertical: 20 }}>
-                        <Image style={{ width: 200, height: 400 }} source={APP_IMAGE.image3} />
+                        <Image style={{ width: 200, height: 400 }} source={APP_IMAGES.image3} />
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <Image style={{ width: 140, height: 100 }} source={APP_IMAGE.image2} />
+                        <Image style={{ width: 140, height: 100 }} source={APP_IMAGES.image2} />
                         <Text style={{ color: '#c89595', marginVertical: 10, fontSize: 24 }}>Nhận diện thương hiệu</Text>
                     </View>
                     <Text style={{ padding: 10 }}>
@@ -167,7 +167,7 @@ const HomeScreen = () => {
                         JilGyungYi tự sản xuất để mang đến chất lượng tốt nhất.
                     </Text>
                     <View style={{ alignItems: 'center' }}>
-                        <Image style={{ width: 140, height: 100 }} source={APP_IMAGE.image2} />
+                        <Image style={{ width: 140, height: 100 }} source={APP_IMAGES.image2} />
                         <Text style={{ color: '#c89595', marginVertical: 10, fontSize: 24 }}>Về chúng tôi</Text>
                     </View>
                     <Text style={{ padding: 10 }}>
@@ -189,7 +189,7 @@ const HomeScreen = () => {
                     công nhận trong và ngoài nước.
                 </Text>
                 <View style={{ alignItems: 'center', marginVertical: 20 }}>
-                    <Image style={{ width: 200, height: 400 }} source={APP_IMAGE.image3} />
+                    <Image style={{ width: 200, height: 400 }} source={APP_IMAGES.image3} />
 
                 </View>
                 <View style={{ backgroundColor: '#FFC0CB', borderRadius: 18, padding: 10, margin: 10 }}>
